@@ -218,7 +218,8 @@ RUN su-exec root composer global require drush/drush && \
     chmod +x /usr/local/bin/drupal
     
     
-RUN mkdir -p ${APP_ROOT}
+#RUN mkdir -p ${APP_ROOT}
+WORKDIR /usr/local/etc/php-fpm.d
 WORKDIR ${APP_ROOT}
 EXPOSE 9000
 EXPOSE 22
