@@ -1,4 +1,4 @@
-FROM wodby/base-php:7.1.8
+FROM wodby/base-php:7.1.8-alpine
 
 ENV GOTPL_VER="0.1.5" \
     PHP_PRESTISSIMO_VER="0.3" \
@@ -219,7 +219,6 @@ RUN su-exec root composer global require drush/drush && \
     
     
 #RUN mkdir -p ${APP_ROOT}
-WORKDIR /usr/local/etc/php-fpm.d
 WORKDIR ${APP_ROOT}
 EXPOSE 9000
 EXPOSE 22
