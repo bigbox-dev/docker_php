@@ -1,11 +1,12 @@
-FROM wodby/base-php:7.1.8
+FROM wodby/base-php:7.1.9
 
 ENV GOTPL_VER="0.1.5" \
     PHP_PRESTISSIMO_VER="0.3" \
-    PHP_UNIT_VER="6.2" \
+    PHP_UNIT_VER="6.3" \
     WALTER_VER="1.3.0" \
 
     EXT_AMQP_VER="1.9.1" \
+    EXT_APCU_VER="5.1.8" \
     EXT_AST_VER="0.1.5" \
     EXT_IMAGICK_VER="3.4.3" \
     EXT_MEMCACHED_VER="3.0.3" \
@@ -28,7 +29,7 @@ ENV GOTPL_VER="0.1.5" \
     LIBPNG_VER="1.6.29-r1" \
     LIBXSLT_VER="1.1.29-r3" \
     MARIADB_CLIENT_VER="10.1.26-r0" \
-    POSTGRESQL_CLIENT_VER="9.6.4-r0" \
+    POSTGRESQL_CLIENT_VER="9.6.5-r0" \
     RABBITMQ_C_VER="0.8.0-r2" \
     YAML_VER="0.1.7-r0"
 
@@ -36,8 +37,10 @@ ENV EXT_AST_URL="https://github.com/nikic/php-ast/archive/v${EXT_AST_VER}.tar.gz
     EXT_UPLOADPROGRESS_URL="https://github.com/wodby/pecl-php-uploadprogress/archive/latest.tar.gz" \
     GOTPL_URL="https://github.com/wodby/gotpl/releases/download/${GOTPL_VER}/gotpl-alpine-linux-amd64-${GOTPL_VER}.tar.gz" \
     WALTER_URL="https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz" \
+    BLACKFIRE_URL="https://blackfire.io/api/v1/releases/probe/php/alpine/amd64" \
 
-    PATH="/root/.composer/vendor/bin:${PATH}"
+    PATH="/home/www-data/.composer/vendor/bin:${PATH}"
+
 
 ENV PHP_REALPATH_CACHE_TTL="3600" \
     PHP_OUTPUT_BUFFERING="16384" \
@@ -104,9 +107,9 @@ RUN set -xe && \
         pcre-dev \
         postgresql-dev \
         rabbitmq-c-dev \
-        yaml-dev
+        yaml-dev && \
 
-RUN docker-php-source extract && \
+    docker-php-source extract && \
 
     docker-php-ext-install \
         bcmath \
