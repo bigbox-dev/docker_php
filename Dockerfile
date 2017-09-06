@@ -39,7 +39,7 @@ ENV EXT_AST_URL="https://github.com/nikic/php-ast/archive/v${EXT_AST_VER}.tar.gz
     WALTER_URL="https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz" \
     BLACKFIRE_URL="https://blackfire.io/api/v1/releases/probe/php/alpine/amd64" \
 
-    PATH="/home/www-data/.composer/vendor/bin:${PATH}"
+    PATH="/home/root/.composer/vendor/bin:${PATH}"
 
 
 ENV PHP_REALPATH_CACHE_TTL="3600" \
@@ -209,19 +209,19 @@ RUN mkdir -p /usr/src/php/ext/uploadprogress && \
         /usr/lib/php/build \
         /tmp/* 
 
-ENV APP_ROOT="/srv/www/"
 
-RUN su-exec root composer global require drush/drush && \
-    su-exec root composer clear-cache && \
-    su-exec root drush @none dl registry_rebuild-7.x && \
-    su-exec root git clone ${DRUSH_PATCHFILE_URL} /root/.drush/drush-patchfile && \
+
+RUN su-exec root composer global require drush/drush
+RUN    su-exec root composer clear-cache
+RUN    su-exec root drush @none dl registry_rebuild-7.x 
+RUN    su-exec root git clone ${DRUSH_PATCHFILE_URL} /root/.drush/drush-patchfile && \
     su-exec root drush cc drush && \
     curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
     chmod +x /usr/local/bin/drupal
     
-    
-#RUN mkdir -p ${APP_ROOT}
+ENV APP_ROOT="/srv/www/"
+
 WORKDIR ${APP_ROOT}
 EXPOSE 9000
 EXPOSE 22
