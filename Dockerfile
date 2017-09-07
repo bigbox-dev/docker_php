@@ -39,7 +39,7 @@ ENV EXT_AST_URL="https://github.com/nikic/php-ast/archive/v${EXT_AST_VER}.tar.gz
     WALTER_URL="https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz" \
     BLACKFIRE_URL="https://blackfire.io/api/v1/releases/probe/php/alpine/amd64" \
 
-    PATH="/home/root/.composer/vendor/bin:${PATH}"
+    PATH="/root/.composer/vendor/bin:${PATH}"
 
 
 ENV PHP_REALPATH_CACHE_TTL="3600" \
@@ -213,6 +213,7 @@ RUN mkdir -p /usr/src/php/ext/uploadprogress && \
 
 RUN su-exec root composer global require drush/drush
 RUN    su-exec root composer clear-cache
+RUN echo $PATH && ls -la /root/.composer/vendor/bin && /root/.composer/vendor/bin/drush
 RUN    su-exec root drush @none dl registry_rebuild-7.x 
 RUN    su-exec root git clone ${DRUSH_PATCHFILE_URL} /root/.drush/drush-patchfile && \
     su-exec root drush cc drush && \
