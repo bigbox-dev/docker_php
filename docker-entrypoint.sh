@@ -90,11 +90,10 @@ initGitConfig
 processConfigs
 
 
-    if [[ $1 == "/usr/sbin/sshd" ]]; then
-        initSSH
-	ssh-keygen -A
-        ssh-keygen -b 2048 -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key -q
-    fi
+if [[ $1 == "/usr/sbin/sshd" ]]; then
+    initSSH
+    ssh-keygen -A
+fi
 
-    exec /usr/local/bin/docker-php-entrypoint "${@}"
+exec /usr/local/bin/docker-php-entrypoint "${@}"
 
